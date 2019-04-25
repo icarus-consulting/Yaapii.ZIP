@@ -19,6 +19,7 @@ var deployment						= Directory("./artifacts/deployment");
 // YAAPII MODULES
 ///////////////////////////////////////////////////////////////////////////////
 var project							= Directory("./src/Yaapii.Zip");
+var tests							= Directory("./tests/Test.Yaapii.Zip");
 var version							= "0.1.0";
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -89,7 +90,7 @@ Task("Build Yaapii")
 	Information("                |_|");
 
 	DotNetCoreBuild(
-        ypXml,
+        project,
         new DotNetCoreBuildSettings()
         {
             Configuration = configuration,
@@ -110,7 +111,7 @@ Task("Generate-Coverage")
 {
 	try
 	{
-		var projectsToCover = new [] { ypXmlTests };
+		var projectsToCover = new [] { tests };
         var dotNetCoreTestSettings =
             new DotNetCoreTestSettings
             {
@@ -174,7 +175,7 @@ Task("Test Yaapii")
   .Does(() => 
 {
 	DotNetCoreTest(
-		ypXmlTests,
+		tests,
 		new DotNetCoreTestSettings()
 		{
 			Configuration = configuration,
@@ -219,7 +220,7 @@ Task("Pack")
 
 	
 	DotNetCorePack(
-		ypXml.ToString(),
+		project.ToString(),
 		settings
     );
 });
