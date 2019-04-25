@@ -16,7 +16,7 @@ var configuration   = Argument<string>("configuration", "Release");
 var buildArtifacts      = new DirectoryPath("./artifacts/");
 var framework     = "netstandard2.0";
 var testFramework = "netcoreapp2.1";
-var project = new DirectoryPath("./src/Yaapii.ZIP/Yaapii.ZIP.csproj");
+var project = new DirectoryPath("./src/Yaapii.Zip/Yaapii.Zip.csproj");
 
 var owner = "icarus-consulting";
 var repository = "Yaapii.ZIP";
@@ -25,7 +25,7 @@ var username = "";
 var password = "";
 var codecovToken = "";
 
-var isAppVeyor          = AppVeyor.IsRunningOnAppVeyor;
+var isAppVeyor = AppVeyor.IsRunningOnAppVeyor;
 var version = "0.11.0";
 
 
@@ -167,26 +167,30 @@ Task("Release")
   .IsDependentOn("Pack")
   .IsDependentOn("GetCredentials")
   .Does(() => {
-		GitReleaseManagerCreate(username, password, owner, repository, new GitReleaseManagerCreateSettings {
+
+	Information("### Create Release... " + owner + "/" + repository);
+	GitReleaseManagerCreate(username, password, owner, repository, new GitReleaseManagerCreateSettings {
             Milestone         = version,
             Name              = version,
             Prerelease        = false,
             TargetCommitish   = "master"
     });
           
-		var nugetFiles = string.Join(",", GetFiles("./artifacts/**/*.nupkg").Select(f => f.FullPath) );
-		Information("Nuget artifacts: " + nugetFiles);
+	var nugetFiles = string.Join(",", GetFiles("./artifacts/**/*.nupkg").Select(f => f.FullPath) );
+	Information("Nuget artifacts: " + nugetFiles);
 
-		GitReleaseManagerAddAssets(
-			username,
-			password,
-			owner,
-			repository,
-			version,
-			nugetFiles
-		);
+	Information("### Add Assets... " + nugetFiles);
+	GitReleaseManagerAddAssets(
+		username,
+		password,
+		owner,
+		repository,
+		version,
+		nugetFiles
+	);
 
-		GitReleaseManagerPublish(username, password, owner, repository, version);
+	Information("### Publish Release... ");
+	GitReleaseManagerPublish(username, password, owner, repository, version);
 });
 
 Task("Default")
