@@ -101,47 +101,6 @@ Task("Test")
 	});
 
 ///////////////////////////////////////////////////////////////////////////////
-// Code Coverage
-///////////////////////////////////////////////////////////////////////////////
-Task("Generate-Coverage")
-.IsDependentOn("Build")
-.Does(() => 
-{
-	try
-	{
-		OpenCover(
-			tool => 
-			{
-				tool.DotNetCoreTest("./tests/Yaapii.ZIP.Tests/",
-				new DotNetCoreTestSettings
-				{
-					 Configuration = "Release"
-				});
-			},
-			new FilePath("./coverage.xml"),
-			new OpenCoverSettings()
-			{
-				OldStyle = true
-			}
-			.WithFilter("+[Yaapii.ZIP]*")
-		);
-	}
-	catch(Exception ex)
-	{
-		Information("Error: " + ex.ToString());
-	}
-});
-
-Task("Upload-Coverage")
-.IsDependentOn("Generate-Coverage")
-.IsDependentOn("GetCredentials")
-.WithCriteria(() => isAppVeyor)
-.Does(() =>
-{
-    Codecov("coverage.xml", codecovToken);
-});
-
-///////////////////////////////////////////////////////////////////////////////
 // Packaging
 ///////////////////////////////////////////////////////////////////////////////
 Task("Pack")
@@ -233,8 +192,6 @@ Task("Release")
 Task("Default")
   .IsDependentOn("Build")
   .IsDependentOn("Test")
-  .IsDependentOn("Generate-Coverage")
-  .IsDependentOn("Upload-Coverage")
   .IsDependentOn("Pack")
   .IsDependentOn("Release")
   .Does(() =>
