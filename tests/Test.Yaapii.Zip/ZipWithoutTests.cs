@@ -12,8 +12,8 @@ namespace Yaapii.Zip.Test
             Assert.Empty(
                 new ZipPaths(
                     new ZipWithout(
-                        new Zipped("Concerned Citizens", new DeadInput()),
-                        "Concerned Citizens"
+                        "Concerned Citizens",
+                        new Zipped("Concerned Citizens", new DeadInput())
                     )
                 )
             );
@@ -25,8 +25,8 @@ namespace Yaapii.Zip.Test
             Assert.Throws<ArgumentException>(() =>
                 new ZipPaths(
                     new ZipWithout(
-                        new Zipped("Brave Citizens", new DeadInput()),
-                        "Concerned Citizens"
+                        "Concerned Citizens",
+                        new Zipped("Brave Citizens", new DeadInput())
                     )
                 ).GetEnumerator()
             );

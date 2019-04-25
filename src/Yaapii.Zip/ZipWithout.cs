@@ -17,18 +17,19 @@ namespace Yaapii.Zip
         /// <summary>
         /// A zip from which a file has been removed.
         /// </summary>
-        public ZipWithout(IInput input, string pathToRemove, bool leaveOpen = true) : this(
+        public ZipWithout(string pathToRemove, IInput input, bool leaveOpen = true) : this(
+            pathToRemove,
             new ScalarOf<Stream>(
-                () => input.Stream()), 
-                pathToRemove, 
-                leaveOpen
-            )
+                () => input.Stream()
+            ),
+            leaveOpen
+        )
         { }
 
         /// <summary>
         /// A zip from which a file has been removed.
         /// </summary>
-        public ZipWithout(IScalar<Stream> zip, string pathToRemove, bool leaveOpen)
+        public ZipWithout(string pathToRemove, IScalar<Stream> zip, bool leaveOpen)
         {
             this.zip = new StickyScalar<Stream>(() =>
             {
