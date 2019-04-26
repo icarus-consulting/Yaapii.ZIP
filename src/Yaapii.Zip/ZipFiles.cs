@@ -14,7 +14,7 @@ namespace Yaapii.Zip
     /// The files in a ZIP archive.
     /// Note: Extraction is sticky.
     /// </summary>
-    public class ZipFiles : IEnumerable<string>
+    public sealed class ZipFiles : IEnumerable<string>
     {
         private readonly IScalar<IEnumerable<string>> files;
 
