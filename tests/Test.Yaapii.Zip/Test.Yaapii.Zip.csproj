@@ -13,6 +13,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Datum\example.zip" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Datum\example.zip" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\src\Yaapii.Zip\Yaapii.Zip.csproj" />
   </ItemGroup>
 

@@ -9,7 +9,7 @@ using Yaapii.Atoms.Scalar;
 namespace Yaapii.Zip
 {
     /// <summary>
-    /// The files in a ZIP archive.
+    /// The paths in a ZIP archive.
     /// Note: Extraction is sticky.
     /// </summary>
     public sealed class ZipPaths : IEnumerable<string>
@@ -17,7 +17,7 @@ namespace Yaapii.Zip
         private readonly IScalar<IEnumerable<string>> files;
 
         /// <summary>
-        /// The files in a ZIP archive.
+        /// The paths in a ZIP archive.
         /// Note: Extraction is sticky.
         /// </summary>
         /// <param name="input"></param>
@@ -37,8 +37,8 @@ namespace Yaapii.Zip
                             if (zip.Entries.Count > 0)
                             {
                                 files =
-                                    new Mapped<ZipArchiveEntry, string>(
-                                        entry => entry.FullName,
+                                    new Mapped<ZipArchiveEntry, string>(entry =>
+                                        entry.FullName,
                                         zip.Entries
                                     );
                             }

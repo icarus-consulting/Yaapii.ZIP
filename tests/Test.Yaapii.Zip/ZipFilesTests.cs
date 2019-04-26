@@ -1,17 +1,20 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Threading.Tasks;
 using Xunit;
 using Yaapii.Atoms.IO;
 
 namespace Yaapii.Zip.Test
 {
-    public sealed class ZipContentsTests
+    public sealed class ZipFilesTests
     {
         [Fact]
         public void ListsFile()
         {
             Assert.Contains(
                 "Oh My Dir/My File",
-                new ZipPaths(
+                new ZipFiles(
                     new Zipped(
                         "Oh My Dir/My File", new InputOf("Mista Singing Club")
                     )
@@ -23,7 +26,7 @@ namespace Yaapii.Zip.Test
         public void StreamIsAtStart()
         {
             var zip = new Zipped("Leave me open", new InputOf("Please!"));
-            new ZipPaths(zip).GetEnumerator();
+            new ZipFiles(zip).GetEnumerator();
 
             Assert.Equal(0, zip.Stream().Position);
         }
@@ -32,7 +35,7 @@ namespace Yaapii.Zip.Test
         public void LeavesOpen()
         {
             var zip = new Zipped("Leave me open", new InputOf("Please!"));
-            new ZipPaths(zip).GetEnumerator();
+            new ZipFiles(zip).GetEnumerator();
 
             Assert.True(zip.Stream().CanRead);
         }
@@ -44,8 +47,21 @@ namespace Yaapii.Zip.Test
 
             Parallel.For(0, System.Environment.ProcessorCount << 4, (current) =>
             {
-                Assert.True(new ZipPaths(zip).GetEnumerator().MoveNext());
+                Assert.True(new ZipFiles(zip).GetEnumerator().MoveNext());
             });
+        }
+
+        [Fact]
+        public void ListsOnlyFiles()
+        {
+            var paths =
+                new ZipFiles(
+                    new ResourceOf("Datum/example.zip", this.GetType())
+                );
+            Assert.Equal(
+                2,
+                new Atoms.Enumerable.LengthOf(paths).Value()
+            );
         }
     }
 }
