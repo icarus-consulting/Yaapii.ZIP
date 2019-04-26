@@ -26,32 +26,12 @@ namespace Yaapii.Zip
         public ZipFiles(IInput input, bool leaveOpen = true)
         {
             this.files =
-                new SolidScalar<IEnumerable<string>>(() =>
-                {
-                    lock (input.Stream())
-                    {
-                        var inputStream = input.Stream();
-                        inputStream.Seek(0, SeekOrigin.Begin);
-                        inputStream.Flush();
-                        IEnumerable<string> files = new EnumerableOf<string>();
-                        using (var zip = new ZipArchive(inputStream, ZipArchiveMode.Read, leaveOpen))
-                        {
-                            if (zip.Entries.Count > 0)
-                            {
-                                files =
-                                    new Mapped<ZipArchiveEntry, string>(filtered =>
-                                        filtered.FullName,
-                                        new Filtered<ZipArchiveEntry>(entry =>
-                                            !entry.FullName.EndsWith("/"),
-                                            zip.Entries
-                                        )
-                                    );
-                            }
-                        }
-                        inputStream.Seek(0, SeekOrigin.Begin);
-                        return files;
-                    }
-                });
+                new StickyScalar<IEnumerable<string>>(()=>
+                    new Filtered<string>(path => 
+                        !path.EndsWith("/"), 
+                        new ZipPaths(input)
+                    )
+                );
         }
 
         public IEnumerator<string> GetEnumerator()
