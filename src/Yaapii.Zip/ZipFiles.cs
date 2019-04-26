@@ -19,7 +19,7 @@ namespace Yaapii.Zip
         private readonly IScalar<IEnumerable<string>> files;
 
         /// <summary>
-        /// The paths in a ZIP archive.
+        /// The files in a ZIP archive.
         /// Note: Extraction is sticky.
         /// </summary>
         /// <param name="input"></param>
