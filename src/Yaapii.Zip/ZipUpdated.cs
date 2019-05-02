@@ -32,7 +32,7 @@ namespace Yaapii.Zip
         /// </summary>
         public ZipUpdated(IScalar<Stream> zip, string pathToUpdate, IInput update, bool leaveOpen)
         {
-            this.zip = new SolidScalar<Stream>(() =>
+            this.zip = new Solid<Stream>(() =>
             {
                 lock (zip.Value())
                 {

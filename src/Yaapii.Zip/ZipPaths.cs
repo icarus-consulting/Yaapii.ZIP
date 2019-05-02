@@ -24,7 +24,7 @@ namespace Yaapii.Zip
         public ZipPaths(IInput input, bool leaveOpen = true)
         {
             this.files =
-                new SolidScalar<IEnumerable<string>>(() =>
+                new Solid<IEnumerable<string>>(() =>
                 {
                     lock (input.Stream())
                     {
