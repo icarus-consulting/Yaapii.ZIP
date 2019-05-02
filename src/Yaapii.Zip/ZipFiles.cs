@@ -26,7 +26,7 @@ namespace Yaapii.Zip
         public ZipFiles(IInput input, bool leaveOpen = true)
         {
             this.files =
-                new SolidScalar<IEnumerable<string>>(()=>
+                new Solid<IEnumerable<string>>(()=>
                     new Filtered<string>(path => 
                         !path.EndsWith("/"), 
                         new ZipPaths(input)
