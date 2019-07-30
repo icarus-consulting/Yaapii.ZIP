@@ -5,6 +5,8 @@ Object oriented tools for handling ZIP archives. Based on [Yaapii.Atoms](https:/
 
 It follows all the rules suggested in the two "[Elegant Objects](https://www.amazon.de/Elegant-Objects-Yegor-Bugayenko/dp/1519166915)" books.
 
+For password protected ZIPs it uses "[DotNetZip](https://github.com/DinoChiesa/DotNetZip)".
+
 ## Usage
 
 There are different Decorator classes which accept a input. A input might come from a file or a memorystream or any other stream. You can use Atoms ```InputOf``` to get an input which you can use with this library.
@@ -85,4 +87,36 @@ var isZip =
     new IsZipArchive(
         new InputOf(File.OpenRead("c:/some-zip-archive.zip"))
     ).Value();
+```
+
+Test if a file in a zip is protected with a password:
+
+```csharp
+var hasPassword =
+    new HasPassword(
+        new InputOf(File.OpenRead("c:/some-zip-archive.zip")),
+        "someFileInTheZip.txt")
+    ).Value();
+```
+
+Extract a file with a password in the zip:
+
+```csharp
+var extracted =
+    new ZipPasswordExtracted(
+        new InputOf(File.OpenRead("c:/some-zip-archive.zip")),
+        "root/dir/some-file.txt",
+        "password"
+    ).Stream();
+```
+
+Create a file with a password in a zip:
+
+```csharp
+var zipArchiveWithPassword =
+    new ZipWithPassword(
+        "small.dat",
+        new InputOf("I feel so compressed"),
+        "password"
+    );
 ```

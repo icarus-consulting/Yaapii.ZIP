@@ -3,6 +3,7 @@ using System.IO;
 using System.IO.Compression;
 using Yaapii.Atoms;
 using Yaapii.Atoms.Enumerable;
+using Yaapii.Atoms.Error;
 using Yaapii.Atoms.Scalar;
 
 namespace Yaapii.Zip
@@ -32,6 +33,12 @@ namespace Yaapii.Zip
         {
             lock (zip)
             {
+                new FailWhen(
+                    () => new HasPassword(this.zip, filePath).Value(),
+                    new InvalidOperationException(
+                        "Can not read content of the zip because the file is password protected"
+                    )
+                ).Go();
                 Stream content;
                 using (var archive = new ZipArchive(this.zip.Stream(), ZipArchiveMode.Read, leaveOpen))
                 {
