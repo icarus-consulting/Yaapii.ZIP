@@ -1,6 +1,8 @@
 ﻿using Ionic.Zip;
+using System.Collections.Generic;
 using System.IO;
 using Yaapii.Atoms;
+using Yaapii.Atoms.Enumerable;
 using Yaapii.Atoms.IO;
 using Yaapii.Atoms.Scalar;
 
@@ -11,35 +13,59 @@ namespace Yaapii.Zip
     /// </summary>
     public sealed class ZipWithPassword : IInput
     {
-        private readonly IScalar<IInput> zip;
+        private readonly Sticky<IInput> result;
 
         /// <summary>
         /// A Zip which input is saved with a password
         /// </summary>
-        public ZipWithPassword(string name, string password, IInput origin) : this(
-            new Sticky<IInput>(() =>
+        public ZipWithPassword(string password, string name, IInput origin) : this(
+            password,
+            new KeyValuePair<string, IInput>(
+                name,
+                origin
+            )
+        )
+        { }
+
+
+
+        /// <summary>
+        /// A Zip which input is saved with a password
+        /// </summary>
+        public ZipWithPassword(string password, params KeyValuePair<string, IInput>[] contents) : this(
+            password,
+            new EnumerableOf<KeyValuePair<string, IInput>>(
+                contents
+            )
+        )
+        { }
+
+        /// <summary>
+        /// A Zip which input is saved with a password
+        /// </summary>
+        public ZipWithPassword(string password, IEnumerable<KeyValuePair<string, IInput>> contents)
+        {
+            this.result = new Sticky<IInput>(() =>
             {
-                IInput output;
-                using (var stream = new MemoryStream())
+                var stream = new MemoryStream();
                 using (var zip = new ZipFile())
                 {
                     zip.Password = password;
-                    zip.AddEntry(name, origin.Stream());
+                    foreach (var entry in contents)
+                    {
+                        var content = entry.Value;
+                        zip.AddEntry(entry.Key, content.Stream());
+                    }
                     zip.Save(stream);
-                    output = new InputOf(stream.ToArray());
                 }
-                return output;
-            }))
-        { }
-
-        private ZipWithPassword(IScalar<IInput> zip)
-        {
-            this.zip = zip;
+                stream.Seek(0, SeekOrigin.Begin);
+                return new InputOf(stream.ToArray());
+            });
         }
 
         public Stream Stream()
         {
-            return zip.Value().Stream();
+            return this.result.Value().Stream();
         }
     }
 }

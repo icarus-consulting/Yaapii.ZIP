@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using Xunit;
 using Yaapii.Atoms.IO;
 
@@ -14,8 +12,8 @@ namespace Yaapii.Zip.Test
             Assert.True(
                 new HasPassword(
                     new ZipWithPassword(
-                        "filename.txt",
                         "aPassword",
+                        "filename.txt",
                         new InputOf("a input")
                     ),
                     "filename.txt"

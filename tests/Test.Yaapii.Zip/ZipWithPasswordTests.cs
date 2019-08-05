@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using Xunit;
+using Yaapii.Atoms;
 using Yaapii.Atoms.IO;
 using Yaapii.Atoms.Scalar;
 using Yaapii.Atoms.Text;
@@ -16,8 +16,8 @@ namespace Yaapii.Zip.Test
             var name = new FirstOf<string>(
                 new Yaapii.Zip.ZipFiles(
                     new ZipWithPassword(
-                        "input.txt",
                         "pass",
+                        "input.txt",
                         new InputOf("mechiko")
                     )
                 )
@@ -32,11 +32,32 @@ namespace Yaapii.Zip.Test
             {
                 new TextOf(
                     new ZipExtracted(
-                        new ZipWithPassword("input.txt", "pass", new InputOf("mechiko")),
+                        new ZipWithPassword(
+                            "pass",
+                            "input.txt",
+                            new InputOf("mechiko")
+                        ),
                         "input.txt"
                     )
                 ).AsString();
             });
+        }
+
+        [Fact]
+        public void ZipsMultipleFiles()
+        {
+            Assert.Equal(
+                2,
+                new Atoms.Enumerable.LengthOf(
+                    new ZipFiles(
+                        new ZipWithPassword("password",
+                            new KeyValuePair<string, IInput>("name1", new InputOf("ThisIsSparta")),
+                            new KeyValuePair<string, IInput>("name2", new InputOf("ThisIsATest"))
+                        ),
+                        false
+                    )
+                ).Value()
+            );
         }
     }
 }

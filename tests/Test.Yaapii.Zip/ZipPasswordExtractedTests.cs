@@ -13,8 +13,8 @@ namespace Yaapii.Zip.Test
             Assert.Throws<ArgumentException>(() =>
                 new ZipPasswordExtracted(
                     new ZipWithPassword(
-                        "text.txt",
                         "password",
+                        "text.txt",
                         new InputOf("safe")
                     ),
                     "text.txt",
@@ -31,8 +31,8 @@ namespace Yaapii.Zip.Test
                 new TextOf(
                     new ZipPasswordExtracted(
                         new ZipWithPassword(
-                            "text.txt",
                             "password",
+                            "text.txt",
                             new InputOf("safe")
                         ),
                         "text.txt",
