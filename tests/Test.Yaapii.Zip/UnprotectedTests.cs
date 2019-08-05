@@ -19,14 +19,6 @@ namespace Yaapii.Zip.Test
         }
 
         [Fact]
-        public void FailsOnNoPassword()
-        {
-            Assert.Throws<ArgumentException>(() =>
-                new Unprotected("password", new Zipped(new KeyValuePair<string, IInput>("name.file", new InputOf("content")))).Stream()
-            );
-        }
-
-        [Fact]
         public void UnprotectsFile()
         {
             Assert.Equal("Eureka",

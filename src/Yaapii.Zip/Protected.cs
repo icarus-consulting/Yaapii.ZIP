@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Text;
 using Yaapii.Atoms;
 using Yaapii.Atoms.Error;
 
@@ -30,10 +29,10 @@ namespace Yaapii.Zip
                 () => !new IsZipArchive(this.origin).Value(),
                 new ArgumentException("Can not Protect zip, because the input is no ZipArchive")
             ).Go();
-            var result = new List<KeyValuePair<string, IInput>>();
+            var result = new Dictionary<string, IInput>();
             foreach (var file in new ZipFiles(origin, true))
             {
-                result.Add(new KeyValuePair<string, IInput>(file, new ZipExtracted(origin, file, true)));
+                result.Add(file, new ZipExtracted(origin, file, true));
             }
             return new ZipWithPassword(this.password, result).Stream();
         }

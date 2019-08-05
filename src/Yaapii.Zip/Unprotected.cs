@@ -29,17 +29,17 @@ namespace Yaapii.Zip
                 () => !new IsZipArchive(this.origin).Value(),
                 new ArgumentException("Can not unprotect zip, because the input is not a ZipArchive")
             ).Go();
-            var result = new List<KeyValuePair<string, IInput>>();
+            var result = new Dictionary<string, IInput>();
             foreach (var file in new ZipFiles(origin, true))
             {
-                new FailWhen(
-                    () => !new HasPassword(
-                        this.origin,
-                        file
-                    ).Value(),
-                    new ArgumentException($"Can not unprotect file because file: {file} has no password")
-                ).Go();
-                result.Add(new KeyValuePair<string, IInput>(file, new ZipPasswordExtracted(this.origin, file, this.password)));
+                if (new HasPassword(this.origin, file).Value())
+                {
+                    result.Add(file, new ZipPasswordExtracted(this.origin, file, this.password));
+                }
+                else
+                {
+                    result.Add(file, new ZipExtracted(this.origin, file));
+                }
             }
             return new Zipped(result).Stream();
         }
