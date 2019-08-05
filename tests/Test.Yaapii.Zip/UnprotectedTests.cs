@@ -46,5 +46,24 @@ namespace Yaapii.Zip.Test
             }
             Assert.Equal(2, files.Count);
         }
+
+        [Fact]
+        public void AcceptsUnprotectedZip()
+        {
+            Assert.Equal(
+                "works",
+                new TextOf(
+                    new ZipExtracted(
+                        new Unprotected("not needed",
+                            new Zipped(
+                                "file",
+                                new InputOf("works")
+                            )
+                        ),
+                        "file"
+                    )
+                ).AsString()
+            );
+        }
     }
 }

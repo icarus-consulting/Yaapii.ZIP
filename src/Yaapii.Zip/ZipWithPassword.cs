@@ -18,10 +18,10 @@ namespace Yaapii.Zip
         /// <summary>
         /// A Zip which input is saved with a password
         /// </summary>
-        public ZipWithPassword(string password, string name, IInput content) : this(
+        public ZipWithPassword(string password, string path, IInput content) : this(
             password,
             new KeyValuePair<string, IInput>(
-                name,
+                path,
                 content
             )
         )
