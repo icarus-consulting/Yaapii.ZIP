@@ -99,6 +99,24 @@ var hasPassword =
     ).Value();
 ```
 
+Protect all files in a zip:
+
+```csharp
+var unprotected =
+    new Protected("thePassword",
+        new InputOf(File.OpenRead("c:/some-zip-archive.zip")))
+    ).Stream();
+```
+
+Unprotect all files in a zip:
+
+```csharp
+var unprotected =
+    new Unprotected("thePassword",
+        new InputOf(File.OpenRead("c:/some-zip-archive-with-password.zip")))
+    ).Stream();
+```
+
 Extract a file with a password in the zip:
 
 ```csharp
@@ -114,9 +132,9 @@ Create a file with a password in a zip:
 
 ```csharp
 var zipArchiveWithPassword =
-    new ZipWithPassword(
-        "small.dat",
-        new InputOf("I feel so compressed"),
+    new ZipWithPassword(,
         "password"
+        "small.dat",
+        new InputOf("I feel so compressed")
     );
 ```
