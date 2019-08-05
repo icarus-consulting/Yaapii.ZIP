@@ -6,11 +6,17 @@ using Yaapii.Atoms.Error;
 
 namespace Yaapii.Zip
 {
+    /// <summary>
+    /// Takes a ZipArchive and unprotects each file
+    /// </summary>
     public sealed class Unprotected : IInput
     {
         private readonly string password;
         private readonly IInput origin;
 
+        /// <summary>
+        /// Takes a ZipArchive and unprotects each file
+        /// </summary>
         public Unprotected(string password, IInput origin)
         {
             this.password = password;

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Xunit;
 using Yaapii.Atoms;
 using Yaapii.Atoms.IO;
@@ -38,6 +39,14 @@ namespace Yaapii.Zip.Test
                         )
                     )
                 ).Value()
+            );
+        }
+
+        [Fact]
+        public void FailsOnNoZip()
+        {
+            Assert.Throws<ArgumentException>(() =>
+                new Protected("irrelevant", new InputOf("not a zip")).Stream()
             );
         }
     }
