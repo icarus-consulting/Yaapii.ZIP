@@ -51,13 +51,13 @@ namespace Yaapii.Zip.Test
         [Fact]
         public void ListsAllPaths()
         {
-            var paths =
-                new ZipPaths(
-                    new ResourceOf("Datum/example.zip", this.GetType())
-                );
             Assert.Equal(
                 6,
-                new Atoms.Enumerable.LengthOf(paths).Value()
+                new Atoms.Enumerable.LengthOf(
+                    new ZipPaths(
+                        new ResourceOf("Datum/example.zip", this.GetType())
+                    )
+                ).Value()
             );
         }
 

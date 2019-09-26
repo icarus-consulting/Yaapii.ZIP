@@ -10,7 +10,10 @@ namespace Yaapii.Zip.Test
         {
             Assert.True(
                 new IsZipArchive(
-                    new Zipped("some/path/file.txt", new InputOf("Some Data"))
+                    new Zipped(
+                        "some/path/file.txt", 
+                        new InputOf("Some Data")
+                    )
                 ).Value()
             );
         }
