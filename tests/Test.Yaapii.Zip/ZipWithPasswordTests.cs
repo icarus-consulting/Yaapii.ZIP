@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using Xunit;
 using Yaapii.Atoms.IO;
 using Yaapii.Atoms.Scalar;
@@ -13,16 +11,18 @@ namespace Yaapii.Zip.Test
         [Fact]
         public void HasFileName()
         {
-            var name = new FirstOf<string>(
-                new Yaapii.Zip.ZipFiles(
-                    new ZipWithPassword(
-                        "input.txt",
-                        "pass",
-                        new InputOf("mechiko")
+            Assert.Equal(
+                "input.txt", 
+                new FirstOf<string>(
+                    new Yaapii.Zip.ZipFiles(
+                        new ZipWithPassword(
+                            "input.txt",
+                            "pass",
+                            new InputOf("mechiko")
+                        )
                     )
-                )
-            ).Value();
-            Assert.Equal("input.txt", name);
+                ).Value()
+            );
         }
 
         [Fact]

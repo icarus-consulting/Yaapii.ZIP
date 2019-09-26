@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Xunit;
 using Yaapii.Atoms.IO;
 
@@ -54,13 +51,33 @@ namespace Yaapii.Zip.Test
         [Fact]
         public void ListsOnlyFiles()
         {
-            var paths =
-                new ZipFiles(
-                    new ResourceOf("Datum/example.zip", this.GetType())
-                );
             Assert.Equal(
                 2,
-                new Atoms.Enumerable.LengthOf(paths).Value()
+                new Atoms.Enumerable.LengthOf(
+                    new ZipFiles(
+                        new ResourceOf("Datum/example.zip", this.GetType())
+                    )
+                ).Value()
+            );
+        }
+
+        [Theory]
+        [InlineData("Datum/windows.zip")]
+        [InlineData("Datum/7zip.zip")]
+        [InlineData("Datum/winrar.zip")]
+        [InlineData("Datum/7zip_crypt.zip")]
+        [InlineData("Datum/7zip_crypt_aes.zip")]
+        [InlineData("Datum/winrar_crypt.zip")]
+        [InlineData("Datum/winrar_crypt_aes.zip")]
+        public void ListsOnlyFilesFromDifferentZips(string path)
+        {
+            Assert.Equal(
+                16,
+                new Atoms.Enumerable.LengthOf(
+                    new ZipFiles(
+                        new ResourceOf(path, this.GetType())
+                    )
+                ).Value()
             );
         }
     }
