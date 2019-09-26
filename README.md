@@ -20,7 +20,7 @@ It does not work with simple compressed streams of data.
 You can create a new ZIP archive like this:
 
 ```csharp
-var zipArchive =
+var file =
     new ZipExtracted(
         new Zipped(
             "small.dat", new InputOf("I feel so compressed")
@@ -28,7 +28,21 @@ var zipArchive =
         "small.dat"
     ).Stream();
 ```
+or with multiple files
+```csharp
+new Zipped(
+    new Dictionary<string, IInput>()
+    {
+        {"small.dat", new InputOf("I feel so compressed") },
+        {"smaller.dat", new InputOf("I'm so compressed") }
+    }
+);
 
+new Zipped(
+    new KeyValuePair<string, IInput>("small.dat", new InputOf("I feel so compressed")),
+    new KeyValuePair<string, IInput>("smaller.dat", new InputOf("I'm so compressed"))
+);
+```
 Update a file in the ZIP:
 
 ```csharp
@@ -36,6 +50,15 @@ var updated =
     new ZipUpdated(
         new Zipped("Brave Citizens.txt", new InputOf("nobody")),
         "Brave Citizens.txt", new InputOf("Edward Snowden")
+    ).Stream();
+
+```
+or add a file to the ZIP if it doesn't exist
+```csharp
+var updated =
+    new ZipUpdated(
+        new Zipped("Brave Citizens.txt", new InputOf("Edward Snowden")),
+        "Concerned Citizens.txt", new InputOf("Donald")
     ).Stream();
 
 ```
@@ -51,11 +74,20 @@ var extracted =
     ).Stream();
 ```
 
-List the contents of an archive:
+List the contents (directories and files) of an archive:
 
 ```csharp
 IEnumerable<string> contents =
     new ZipPaths(
+        new InputOf(File.OpenRead("c:/some-zip-archive.zip")),
+    );
+```
+
+List all files only of an archive:
+
+```csharp
+IEnumerable<string> files =
+    new ZipFiles(
         new InputOf(File.OpenRead("c:/some-zip-archive.zip")),
     );
 ```
@@ -86,6 +118,16 @@ Test if a stream is a valid zip archive:
 var isZip =
     new IsZipArchive(
         new InputOf(File.OpenRead("c:/some-zip-archive.zip"))
+    ).Value();
+```
+
+Test if a file exists in a zip:
+
+```csharp
+var exists =
+    new ZipContains(
+        new InputOf(File.OpenRead("c:/some-zip-archive.zip")),
+        "someFileInTheZip.txt")
     ).Value();
 ```
 
