@@ -3,14 +3,14 @@ using System.IO;
 using System.IO.Compression;
 using Yaapii.Atoms;
 using Yaapii.Atoms.Enumerable;
+using Yaapii.Atoms.Error;
 using Yaapii.Atoms.IO;
 using Yaapii.Atoms.Scalar;
-using Yaapii.Atoms.Text;
 
 namespace Yaapii.Zip
 {
     /// <summary>
-    /// A zip from which a file has been removed.
+    /// A zip from which a file has been updated or added.
     /// If the file to update does not exist, it is created.
     /// </summary>
     public sealed class ZipUpdated : IInput
@@ -18,7 +18,7 @@ namespace Yaapii.Zip
         private readonly IScalar<Stream> zip;
 
         /// <summary>
-        /// A zip in which a file has been updated.
+        /// A zip in which a file has been updated or added.
         /// If the file to update does not exist, it is created.
         /// </summary>
         public ZipUpdated(IInput input, string pathToUpdate, IInput update, bool leaveOpen = true) : this(
@@ -27,13 +27,20 @@ namespace Yaapii.Zip
         { }
 
         /// <summary>
-        /// A zip from which a file has been removed.
+        /// A zip from which a file has been updated or added.
         /// If the file to update does not exist, it is created.
         /// </summary>
         public ZipUpdated(IScalar<Stream> zip, string pathToUpdate, IInput update, bool leaveOpen)
         {
             this.zip = new Solid<Stream>(() =>
             {
+                new FailWhen(
+                    () => ExistsAndCrypted(new InputOf(zip.Value()), pathToUpdate),
+                    new InvalidOperationException(
+                        $"Cannot update '{pathToUpdate}' because the file is password protected"
+                    )
+                ).Go();
+
                 lock (zip.Value())
                 {
                     var stream = zip.Value();
@@ -75,6 +82,19 @@ namespace Yaapii.Zip
             var dir = Path.GetDirectoryName(path).ToLower();
             var file = Path.GetFileName(path).ToLower();
             return Path.Combine(dir, file);
+        }
+
+        private bool ExistsAndCrypted(IInput zip, string filepath)
+        {
+            bool result = false;
+            if(new ZipContains(zip, filepath).Value())
+            {
+                if(new HasPassword(zip, filepath).Value())
+                {
+                    result = true;
+                }
+            }
+            return result;
         }
     }
 }

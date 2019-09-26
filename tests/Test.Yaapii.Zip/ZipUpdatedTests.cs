@@ -27,23 +27,18 @@ namespace Yaapii.Zip.Test
         }
 
         [Fact]
-        public void UpdatesPasswordFile()
+        public void ThrowsForPasswordFile()
         {
-            Assert.Equal(
-                "Edward Snowden",
-                new TextOf(
-                    new ZipExtracted(
-                        new ZipUpdated(
-                            new ZipWithPassword(
-                                "Brave Citizens.txt",
-                                "pwd",
-                                new InputOf("")),
-                            "Brave Citizens.txt", 
-                            new InputOf("Edward Snowden")
-                        ),
-                        "Brave Citizens.txt"
-                    )
-                ).AsString()
+            Assert.Throws<InvalidOperationException>(() =>
+                new ZipUpdated(
+                    new ZipWithPassword(
+                        "Brave Citizens.txt",
+                        "pwd",
+                        new InputOf("Empty data will not crypted!")
+                    ),
+                    "Brave Citizens.txt",
+                    new InputOf("456")
+                ).Stream()
             );
         }
 
@@ -77,26 +72,46 @@ namespace Yaapii.Zip.Test
         [InlineData("Datum/7zip_crypt_aes.zip")]
         [InlineData("Datum/winrar_crypt.zip")]
         [InlineData("Datum/winrar_crypt_aes.zip")]
-        public void UpdatesFileInDifferentCrypedZips(string path)
+        public void ThrowsForDifferentCrypedZips(string path)
+        {
+            Assert.Throws<InvalidOperationException>(() =>
+                new ZipUpdated(
+                    new ResourceOf(path, this.GetType()),
+                    "c/Y/test-a-y-2.txt",
+                    new InputOf("456")
+                ).Stream()
+            );
+        }
+
+        [Theory]
+        [InlineData("Datum/windows.zip")]
+        [InlineData("Datum/7zip.zip")]
+        [InlineData("Datum/winrar.zip")]
+        [InlineData("Datum/7zip_crypt.zip")]
+        [InlineData("Datum/7zip_crypt_aes.zip")]
+        [InlineData("Datum/winrar_crypt.zip")]
+        [InlineData("Datum/winrar_crypt_aes.zip")]
+        public void AddsFileToDifferentZips(string path)
         {
             var zip = new MemoryStream();
             new ResourceOf(path, this.GetType()).Stream().CopyTo(zip);
             zip.Seek(0, SeekOrigin.Begin);
 
             Assert.Equal(
-                "456",
+                "new text",
                 new TextOf(
                     new ZipExtracted(
                         new ZipUpdated(
                             new InputOf(zip),
-                            "c/Y/test-a-y-2.txt",
-                            new InputOf("456")
+                            "c/Y/newfile.txt",
+                            new InputOf("new text")
                         ),
-                        "c/Y/test-a-y-2.txt"
+                        "c/Y/newfile.txt"
                     )
                 ).AsString()
             );
         }
+
         [Fact]
         public void CreatesUnknownFile()
         {
