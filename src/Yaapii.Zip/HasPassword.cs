@@ -25,18 +25,20 @@ namespace Yaapii.Zip
 
         public bool Value()
         {
-            var stream = zip.Stream();
-            stream.Seek(0, SeekOrigin.Begin);
             new FailWhen(
                 () => !new IsZipArchive(this.zip).Value(),
-                new ArgumentException(
-                    "Can not extract zip because no zip was provided."
-                )
+                new ArgumentException("Cannot check for password because no zip was provided.")
             ).Go();
+
+            var stream = zip.Stream();
             stream.Seek(0, SeekOrigin.Begin);
             bool result;
             using (var zip = ZipFile.Read(this.zip.Stream()))
             {
+                new FailWhen(
+                    ()=> !zip.ContainsEntry(virtualPath),
+                    new ArgumentException($"Cannot check for password because file '{virtualPath} doesn't exists.")
+                );
                 result = zip[virtualPath].UsesEncryption;
             }
             return result;
