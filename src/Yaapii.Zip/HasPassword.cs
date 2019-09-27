@@ -30,16 +30,19 @@ namespace Yaapii.Zip
                 new ArgumentException("Cannot check for password because no zip was provided.")
             ).Go();
 
-            var stream = zip.Stream();
-            stream.Seek(0, SeekOrigin.Begin);
+            // ZipFile.ContainsEntry() by Ionic does not work with backslashes,
+            // even if the path is normalized. Misterious
+            new FailWhen(
+                () => !new ZipContains(this.zip, this.virtualPath).Value(),
+                new ArgumentException($"Cannot check for password because file '{this.virtualPath} doesn't exists in zip.")
+            ).Go();
+
             bool result;
-            using (var zip = ZipFile.Read(this.zip.Stream()))
+            var stream = this.zip.Stream();
+            stream.Seek(0, SeekOrigin.Begin);
+            using (var zip = ZipFile.Read(stream))
             {
-                new FailWhen(
-                    ()=> !zip.ContainsEntry(virtualPath),
-                    new ArgumentException($"Cannot check for password because file '{virtualPath} doesn't exists.")
-                );
-                result = zip[virtualPath].UsesEncryption;
+                result = zip[this.virtualPath].UsesEncryption;
             }
             return result;
         }

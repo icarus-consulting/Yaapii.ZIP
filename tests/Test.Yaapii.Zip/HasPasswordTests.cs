@@ -44,5 +44,19 @@ namespace Yaapii.Zip.Test
                 new HasPassword(new InputOf("test"), "a path").Value()
             );
         }
+
+        [Fact]
+        public void ThrowsOnMissingEntry()
+        {
+            Assert.Throws<ArgumentException>(() =>
+                new HasPassword(
+                    new Zipped(
+                        "filename.txt",
+                        new InputOf("a input")
+                    ),
+                    "otherfile.txt"
+                ).Value()
+            );
+        }
     }
 }

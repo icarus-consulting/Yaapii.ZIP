@@ -1,4 +1,5 @@
-﻿using Xunit;
+﻿using System;
+using Xunit;
 using Yaapii.Atoms.IO;
 using Yaapii.Atoms.Text;
 
@@ -36,6 +37,20 @@ namespace Yaapii.Zip.Test
                     )
                 )
                 .AsString()
+            );
+        }
+
+        [Fact]
+        public void FailsOnMissingEntry()
+        {
+            Assert.Throws<ArgumentException>(() =>
+                new ZipExtracted(
+                    new Zipped(
+                        "filename.txt",
+                        new InputOf("a input")
+                    ),
+                    "otherfile.txt"
+                ).Stream()
             );
         }
     }

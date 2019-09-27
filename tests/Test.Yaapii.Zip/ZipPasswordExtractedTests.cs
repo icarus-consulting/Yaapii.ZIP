@@ -58,5 +58,21 @@ namespace Yaapii.Zip.Test
                 ).AsString()
             );
         }
+
+        [Fact]
+        public void FailsOnMissingEntry()
+        {
+            Assert.Throws<ArgumentException>(() =>
+                new ZipPasswordExtracted(
+                    new ZipWithPassword(
+                        "filename.txt",
+                        "pwd",
+                        new InputOf("a input")
+                    ),
+                    "otherfile.txt",
+                    "pwd"
+                ).Stream()
+            );
+        }
     }
 }
