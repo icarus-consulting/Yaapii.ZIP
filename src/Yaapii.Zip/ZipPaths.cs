@@ -32,15 +32,18 @@ namespace Yaapii.Zip
                         inputStream.Seek(0, SeekOrigin.Begin);
                         inputStream.Flush();
                         IEnumerable<string> files = new EnumerableOf<string>();
-                        using (var zip = new ZipArchive(inputStream, ZipArchiveMode.Read, leaveOpen))
+                        if(inputStream.Length > 0)
                         {
-                            if (zip.Entries.Count > 0)
+                            using (var zip = new ZipArchive(inputStream, ZipArchiveMode.Read, leaveOpen))
                             {
-                                files =
-                                    new Mapped<ZipArchiveEntry, string>(entry =>
-                                        entry.FullName,
-                                        zip.Entries
-                                    );
+                                if (zip.Entries.Count > 0)
+                                {
+                                    files =
+                                        new Mapped<ZipArchiveEntry, string>(entry =>
+                                            entry.FullName,
+                                            zip.Entries
+                                        );
+                                }
                             }
                         }
                         inputStream.Seek(0, SeekOrigin.Begin);
