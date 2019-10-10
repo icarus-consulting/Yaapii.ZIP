@@ -34,16 +34,16 @@ namespace Yaapii.Zip
         {
             this.zip = new Solid<Stream>(() =>
             {
-                new FailWhen(
-                    () => ExistsAndCrypted(new InputOf(zip.Value()), pathToUpdate),
-                    new InvalidOperationException(
-                        $"Cannot update '{pathToUpdate}' because the file is password protected"
-                    )
-                ).Go();
-
-                lock (zip.Value())
+                var stream = zip.Value();
+                lock (stream)
                 {
-                    var stream = zip.Value();
+                    new FailWhen(
+                        () => ExistsAndCrypted(new InputOf(stream), pathToUpdate),
+                        new InvalidOperationException(
+                            $"Cannot update '{pathToUpdate}' because the file is password protected"
+                        )
+                    ).Go();
+                    
                     stream.Seek(0, SeekOrigin.Begin);
                     using (var archive = new ZipArchive(stream, ZipArchiveMode.Update, leaveOpen))
                     {
