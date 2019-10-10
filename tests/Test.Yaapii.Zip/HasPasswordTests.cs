@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using Xunit;
 using Yaapii.Atoms.IO;
 
@@ -23,6 +21,21 @@ namespace Yaapii.Zip.Test
             );
         }
 
+        [Theory]
+        [InlineData("Datum/7zip_crypt.zip")]
+        [InlineData("Datum/7zip_crypt_aes.zip")]
+        [InlineData("Datum/winrar_crypt.zip")]
+        [InlineData("Datum/winrar_crypt_aes.zip")]
+        public void HasPasswordFromDifferentZips(string path)
+        {
+            Assert.True(
+                new HasPassword(
+                    new ResourceOf(path, this.GetType()),
+                    @"c\Y\test-a-y-1.txt"
+                ).Value()
+            );
+        }
+
         [Fact]
         public void ReturnsFalseOnNoPassword()
         {
@@ -33,6 +46,20 @@ namespace Yaapii.Zip.Test
                         new InputOf("a input")
                     ),
                     "filename.txt"
+                ).Value()
+            );
+        }
+
+        [Theory]
+        [InlineData("Datum/windows.zip")]
+        [InlineData("Datum/7zip.zip")]
+        [InlineData("Datum/winrar.zip")]
+        public void HasNoPasswordFromDifferentZips(string path)
+        {
+            Assert.False(
+                new HasPassword(
+                    new ResourceOf(path, this.GetType()),
+                    @"c\Y\test-a-y-1.txt"
                 ).Value()
             );
         }

@@ -53,5 +53,23 @@ namespace Yaapii.Zip.Test
                 ).Stream()
             );
         }
+
+        [Theory]
+        [InlineData("Datum/windows.zip")]
+        [InlineData("Datum/7zip.zip")]
+        [InlineData("Datum/winrar.zip")]
+        public void ExtractsFromDifferentZips(string path)
+        {
+            Assert.Equal(
+                "123",
+                new TextOf(
+                    new ZipExtracted(
+                        new ResourceOf(path, this.GetType()),
+                        @"c\Y\test-a-y-1.txt",
+                        false
+                    )
+                ).AsString()
+            );
+        }
     }
 }
