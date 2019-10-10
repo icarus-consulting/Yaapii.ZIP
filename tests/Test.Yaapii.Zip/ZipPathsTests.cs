@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.IO;
+using System.Threading.Tasks;
 using Xunit;
 using Yaapii.Atoms.IO;
 
@@ -94,6 +95,18 @@ namespace Yaapii.Zip.Test
                         new ResourceOf("Datum/windows.zip", this.GetType())
                     )
                 ).Value()
+            );
+        }
+
+        [Fact]
+        public void EmptyFilesOnEmptyStream()
+        {
+            Assert.Empty(
+                new ZipPaths(
+                    new InputOf(
+                        new MemoryStream()
+                    )
+                )
             );
         }
     }
