@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Threading.Tasks;
 using Xunit;
 using Yaapii.Atoms.IO;
@@ -20,6 +21,92 @@ namespace Yaapii.Zip.Test
                             "Brave Citizens.txt", new InputOf("Edward Snowden")
                         ),
                         "Brave Citizens.txt"
+                    )
+                ).AsString()
+            );
+        }
+
+        [Fact]
+        public void ThrowsForPasswordFile()
+        {
+            Assert.Throws<InvalidOperationException>(() =>
+                new ZipUpdated(
+                    new ZipWithPassword(
+                        "Brave Citizens.txt",
+                        "pwd",
+                        new InputOf("Empty data will not crypted!")
+                    ),
+                    "Brave Citizens.txt",
+                    new InputOf("456")
+                ).Stream()
+            );
+        }
+
+        [Theory]
+        [InlineData("Datum/windows.zip")]
+        [InlineData("Datum/7zip.zip")]
+        [InlineData("Datum/winrar.zip")]
+        public void UpdatesFileInDifferentZips(string path)
+        {
+            var zip = new MemoryStream();
+            new ResourceOf(path, this.GetType()).Stream().CopyTo(zip);
+            zip.Seek(0, SeekOrigin.Begin);
+
+            Assert.Equal(
+                "456",
+                new TextOf(
+                    new ZipExtracted(
+                        new ZipUpdated(
+                            new InputOf(zip),
+                            "c/Y/test-a-y-2.txt",
+                            new InputOf("456")
+                        ),
+                        "c/Y/test-a-y-2.txt"
+                    )
+                ).AsString()
+            );
+        }
+
+        [Theory]
+        [InlineData("Datum/7zip_crypt.zip")]
+        [InlineData("Datum/7zip_crypt_aes.zip")]
+        [InlineData("Datum/winrar_crypt.zip")]
+        [InlineData("Datum/winrar_crypt_aes.zip")]
+        public void ThrowsForDifferentCrypedZips(string path)
+        {
+            Assert.Throws<InvalidOperationException>(() =>
+                new ZipUpdated(
+                    new ResourceOf(path, this.GetType()),
+                    "c/Y/test-a-y-2.txt",
+                    new InputOf("456")
+                ).Stream()
+            );
+        }
+
+        [Theory]
+        [InlineData("Datum/windows.zip")]
+        [InlineData("Datum/7zip.zip")]
+        [InlineData("Datum/winrar.zip")]
+        [InlineData("Datum/7zip_crypt.zip")]
+        [InlineData("Datum/7zip_crypt_aes.zip")]
+        [InlineData("Datum/winrar_crypt.zip")]
+        [InlineData("Datum/winrar_crypt_aes.zip")]
+        public void AddsFileToDifferentZips(string path)
+        {
+            var zip = new MemoryStream();
+            new ResourceOf(path, this.GetType()).Stream().CopyTo(zip);
+            zip.Seek(0, SeekOrigin.Begin);
+
+            Assert.Equal(
+                "new text",
+                new TextOf(
+                    new ZipExtracted(
+                        new ZipUpdated(
+                            new InputOf(zip),
+                            "c/Y/newfile.txt",
+                            new InputOf("new text")
+                        ),
+                        "c/Y/newfile.txt"
                     )
                 ).AsString()
             );

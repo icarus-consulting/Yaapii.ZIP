@@ -42,6 +42,25 @@ namespace Yaapii.Zip.Test
             );
         }
 
+        [Theory]
+        [InlineData("Datum/7zip_crypt.zip")]
+        [InlineData("Datum/7zip_crypt_aes.zip")]
+        [InlineData("Datum/winrar_crypt.zip")]
+        [InlineData("Datum/winrar_crypt_aes.zip")]
+        public void ExtractsFromDifferentZips(string path)
+        {
+            Assert.Equal(
+                "123",
+                new TextOf(
+                    new ZipPasswordExtracted(
+                        new ResourceOf(path, this.GetType()),
+                         @"c\Y\test-a-y-1.txt",
+                        "icarus"
+                    )
+                ).AsString()
+            );
+        }
+
         [Fact]
         public void FailsOnNoPassword()
         {

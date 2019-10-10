@@ -13,11 +13,25 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Datum\7zip.zip" />
+    <None Remove="Datum\7zip_crypt.zip" />
+    <None Remove="Datum\7zip_crypt_aes.zip" />
     <None Remove="Datum\example.zip" />
+    <None Remove="Datum\windows.zip" />
+    <None Remove="Datum\winrar.zip" />
+    <None Remove="Datum\winrar_crypt.zip" />
+    <None Remove="Datum\winrar_crypt_aes.zip" />
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Datum\7zip.zip" />
+    <EmbeddedResource Include="Datum\7zip_crypt.zip" />
+    <EmbeddedResource Include="Datum\7zip_crypt_aes.zip" />
     <EmbeddedResource Include="Datum\example.zip" />
+    <EmbeddedResource Include="Datum\windows.zip" />
+    <EmbeddedResource Include="Datum\winrar.zip" />
+    <EmbeddedResource Include="Datum\winrar_crypt.zip" />
+    <EmbeddedResource Include="Datum\winrar_crypt_aes.zip" />
   </ItemGroup>
 
   <ItemGroup>
