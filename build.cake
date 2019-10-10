@@ -2,7 +2,7 @@
 #tool nuget:?package=OpenCover
 #tool nuget:?package=xunit.runner.console
 #tool nuget:?package=Codecov
-#tool nuget:?package=ReportGenerator
+#tool nuget:?package=ReportGenerator&version=4.2.20
 #addin nuget:?package=Cake.Codecov&version=0.5.0
 
 var target = Argument("target", "Default");
