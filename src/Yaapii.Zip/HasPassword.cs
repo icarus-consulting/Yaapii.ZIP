@@ -27,14 +27,14 @@ namespace Yaapii.Zip
         {
             new FailWhen(
                 () => !new IsZipArchive(this.zip).Value(),
-                new ArgumentException("Cannot check for password because no zip was provided.")
+                new ArgumentException("Cannot check for password because input is not a zip archive.")
             ).Go();
 
             // ZipFile.ContainsEntry() by Ionic does not work with backslashes,
             // even if the path is normalized. Misterious
             new FailWhen(
                 () => !new ZipContains(this.zip, this.virtualPath).Value(),
-                new ArgumentException($"Cannot check for password because file '{this.virtualPath} doesn't exists in zip.")
+                new ArgumentException($"Cannot check for password because the file '{this.virtualPath}' doesn't exist in the archive.")
             ).Go();
 
             bool result;

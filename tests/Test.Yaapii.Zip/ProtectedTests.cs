@@ -13,7 +13,7 @@ namespace Yaapii.Zip.Test
         {
             Assert.True(
                 new HasPassword(
-                    new Protected("",
+                    new Encrypted("",
                         new Zipped(
                             new KeyValuePair<string, IInput>(
                                 "file.exe", new InputOf("This is Sparta")
@@ -31,7 +31,7 @@ namespace Yaapii.Zip.Test
                 2,
                 new Atoms.Enumerable.LengthOf(
                     new ZipFiles(
-                        new Protected("Trojan",
+                        new Encrypted("Trojan",
                             new Zipped(
                                 new KeyValuePair<string, IInput>("horse.file", new InputOf("not a horse")),
                                 new KeyValuePair<string, IInput>("dog.cpp", new InputOf("cat"))
@@ -46,7 +46,7 @@ namespace Yaapii.Zip.Test
         public void FailsOnNoZip()
         {
             Assert.Throws<ArgumentException>(() =>
-                new Protected("irrelevant", new InputOf("not a zip")).Stream()
+                new Encrypted("irrelevant", new InputOf("not a zip")).Stream()
             );
         }
     }

@@ -9,7 +9,7 @@ namespace Yaapii.Zip
     /// <summary>
     /// Takes a ZipArchive and protects each file with a password
     /// </summary>
-    public sealed class Protected : IInput
+    public sealed class Encrypted : IInput
     {
         private readonly string password;
         private readonly IInput origin;
@@ -17,7 +17,7 @@ namespace Yaapii.Zip
         /// <summary>
         /// Takes a ZipArchive and protects each file with a password
         /// </summary>
-        public Protected(string password, IInput origin)
+        public Encrypted(string password, IInput origin)
         {
             this.password = password;
             this.origin = origin;

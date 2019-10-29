@@ -17,8 +17,8 @@ namespace Yaapii.Zip.Test
                         "text.txt",
                         new InputOf("safe")
                     ),
-                    "text.txt",
-                    "noPassword"
+                    "noPassword",
+                    "text.txt"
                 ).Stream()
             );
         }
@@ -35,11 +35,51 @@ namespace Yaapii.Zip.Test
                             "text.txt",
                             new InputOf("safe")
                         ),
-                        "text.txt",
-                        "password"
+                        "password",
+                        "text.txt"
                     )
                 ).AsString()
             );
+        }
+
+        [Fact]
+        public void LeavesStreamOpen()
+        {
+            var encrypted =
+                new ZipWithPassword(
+                    "password",
+                    "text.txt",
+                    new InputOf("safe")
+                ).Stream();
+
+            new ZipPasswordExtracted(
+                new InputOf(encrypted),
+                "password",
+                "text.txt",
+                true
+            ).Stream();
+
+            Assert.True(encrypted.CanRead);
+        }
+
+        [Fact]
+        public void ClosesStream()
+        {
+            var encrypted =
+                new ZipWithPassword(
+                    "password",
+                    "text.txt",
+                    new InputOf("safe")
+                ).Stream();
+
+            new ZipPasswordExtracted(
+                new InputOf(encrypted),
+                "password",
+                "text.txt",
+                false
+            ).Stream();
+
+            Assert.False(encrypted.CanRead);
         }
 
         [Theory]
@@ -54,8 +94,8 @@ namespace Yaapii.Zip.Test
                 new TextOf(
                     new ZipPasswordExtracted(
                         new ResourceOf(path, this.GetType()),
-                         @"c\Y\test-a-y-1.txt",
-                        "icarus"
+                        "icarus",
+                         @"c\Y\test-a-y-1.txt"
                     )
                 ).AsString()
             );
@@ -71,8 +111,8 @@ namespace Yaapii.Zip.Test
                             "text.txt",
                             new InputOf("safe")
                         ),
-                        "text.txt",
-                        "password"
+                        "password",
+                        "text.txt"
                     )
                 ).AsString()
             );

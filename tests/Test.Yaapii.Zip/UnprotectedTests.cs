@@ -14,7 +14,7 @@ namespace Yaapii.Zip.Test
         public void FailsOnNoZip()
         {
             Assert.Throws<ArgumentException>(() =>
-                new Unprotected("password", new InputOf("not a zip")).Stream()
+                new Decrypted("password", new InputOf("not a zip")).Stream()
             );
         }
 
@@ -24,7 +24,7 @@ namespace Yaapii.Zip.Test
             Assert.Equal("Eureka",
                 new TextOf(
                     new ZipExtracted(
-                        new Unprotected("pass",
+                        new Decrypted("pass",
                             new ZipWithPassword("pass",
                                 new KeyValuePair<string, IInput>("path.exe", new InputOf("Eureka"))
                             )
@@ -39,7 +39,7 @@ namespace Yaapii.Zip.Test
         public void UnprotectsMultipleFiles()
         {
             var files = new List<string>();
-            var zip = new Unprotected("blacklist", new ZipWithPassword("blacklist", new KeyValuePair<string, IInput>("file1", new InputOf("remington")), new KeyValuePair<string, IInput>("file2", new InputOf("keen"))));
+            var zip = new Decrypted("blacklist", new ZipWithPassword("blacklist", new KeyValuePair<string, IInput>("file1", new InputOf("remington")), new KeyValuePair<string, IInput>("file2", new InputOf("keen"))));
             foreach (var file in new ZipFiles(zip))
             {
                 files.Add(new TextOf(new ZipExtracted(zip, file)).AsString());
@@ -54,7 +54,7 @@ namespace Yaapii.Zip.Test
                 "works",
                 new TextOf(
                     new ZipExtracted(
-                        new Unprotected("not needed",
+                        new Decrypted("not needed",
                             new Zipped(
                                 "file",
                                 new InputOf("works")
