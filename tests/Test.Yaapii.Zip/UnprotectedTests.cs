@@ -25,7 +25,7 @@ namespace Yaapii.Zip.Test
                 new TextOf(
                     new ZipExtracted(
                         new Decrypted("pass",
-                            new ZipWithPassword("pass",
+                            new ZipEncrypted("pass",
                                 new KeyValuePair<string, IInput>("path.exe", new InputOf("Eureka"))
                             )
                         ),
@@ -39,7 +39,7 @@ namespace Yaapii.Zip.Test
         public void UnprotectsMultipleFiles()
         {
             var files = new List<string>();
-            var zip = new Decrypted("blacklist", new ZipWithPassword("blacklist", new KeyValuePair<string, IInput>("file1", new InputOf("remington")), new KeyValuePair<string, IInput>("file2", new InputOf("keen"))));
+            var zip = new Decrypted("blacklist", new ZipEncrypted("blacklist", new KeyValuePair<string, IInput>("file1", new InputOf("remington")), new KeyValuePair<string, IInput>("file2", new InputOf("keen"))));
             foreach (var file in new ZipFiles(zip))
             {
                 files.Add(new TextOf(new ZipExtracted(zip, file)).AsString());

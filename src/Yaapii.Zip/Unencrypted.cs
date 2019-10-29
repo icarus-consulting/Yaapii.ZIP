@@ -27,14 +27,14 @@ namespace Yaapii.Zip
         {
             new FailWhen(
                 () => !new IsZipArchive(this.origin).Value(),
-                new ArgumentException("Can not decrypt zip, because the input is not a Zip archive")
+                new ArgumentException("Can not decrypt zip, because the input is not a zip archive")
             ).Go();
             var result = new Dictionary<string, IInput>();
             foreach (var file in new ZipFiles(origin, true))
             {
                 if (new HasPassword(this.origin, file).Value())
                 {
-                    result.Add(file, new ZipPasswordExtracted(this.origin, file, this.password));
+                    result.Add(file, new ZipDecryptedExtracted(this.origin, file, this.password));
                 }
                 else
                 {

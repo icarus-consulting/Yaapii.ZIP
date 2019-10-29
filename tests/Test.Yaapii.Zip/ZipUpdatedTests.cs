@@ -31,7 +31,7 @@ namespace Yaapii.Zip.Test
         {
             Assert.Throws<InvalidOperationException>(() =>
                 new ZipUpdated(
-                    new ZipWithPassword(
+                    new ZipEncrypted(
                         "pwd",
                         "Brave Citizens.txt",
                         new InputOf("Empty data will not be encrypted!")

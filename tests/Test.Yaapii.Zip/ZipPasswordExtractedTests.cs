@@ -11,8 +11,8 @@ namespace Yaapii.Zip.Test
         public void FailsOnWrongPassword()
         {
             Assert.Throws<ArgumentException>(() =>
-                new ZipPasswordExtracted(
-                    new ZipWithPassword(
+                new ZipDecryptedExtracted(
+                    new ZipEncrypted(
                         "password",
                         "text.txt",
                         new InputOf("safe")
@@ -29,8 +29,8 @@ namespace Yaapii.Zip.Test
             Assert.Equal(
                 "safe",
                 new TextOf(
-                    new ZipPasswordExtracted(
-                        new ZipWithPassword(
+                    new ZipDecryptedExtracted(
+                        new ZipEncrypted(
                             "password",
                             "text.txt",
                             new InputOf("safe")
@@ -46,13 +46,13 @@ namespace Yaapii.Zip.Test
         public void LeavesStreamOpen()
         {
             var encrypted =
-                new ZipWithPassword(
+                new ZipEncrypted(
                     "password",
                     "text.txt",
                     new InputOf("safe")
                 ).Stream();
 
-            new ZipPasswordExtracted(
+            new ZipDecryptedExtracted(
                 new InputOf(encrypted),
                 "password",
                 "text.txt",
@@ -66,13 +66,13 @@ namespace Yaapii.Zip.Test
         public void ClosesStream()
         {
             var encrypted =
-                new ZipWithPassword(
+                new ZipEncrypted(
                     "password",
                     "text.txt",
                     new InputOf("safe")
                 ).Stream();
 
-            new ZipPasswordExtracted(
+            new ZipDecryptedExtracted(
                 new InputOf(encrypted),
                 "password",
                 "text.txt",
@@ -92,7 +92,7 @@ namespace Yaapii.Zip.Test
             Assert.Equal(
                 "123",
                 new TextOf(
-                    new ZipPasswordExtracted(
+                    new ZipDecryptedExtracted(
                         new ResourceOf(path, this.GetType()),
                         "icarus",
                          @"c\Y\test-a-y-1.txt"
@@ -106,7 +106,7 @@ namespace Yaapii.Zip.Test
         {
             Assert.Throws<InvalidOperationException>(() =>
                 new TextOf(
-                    new ZipPasswordExtracted(
+                    new ZipDecryptedExtracted(
                         new Zipped(
                             "text.txt",
                             new InputOf("safe")
@@ -122,8 +122,8 @@ namespace Yaapii.Zip.Test
         public void FailsOnMissingEntry()
         {
             Assert.Throws<ArgumentException>(() =>
-                new ZipPasswordExtracted(
-                    new ZipWithPassword(
+                new ZipDecryptedExtracted(
+                    new ZipEncrypted(
                         "filename.txt",
                         "pwd",
                         new InputOf("a input")

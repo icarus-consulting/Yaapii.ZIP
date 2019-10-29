@@ -11,7 +11,7 @@ namespace Yaapii.Zip.Test
         {
             Assert.True(
                 new HasPassword(
-                    new ZipWithPassword(
+                    new ZipEncrypted(
                         "aPassword",
                         "filename.txt",
                         new InputOf("a input")

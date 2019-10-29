@@ -8,9 +8,9 @@ using Yaapii.Atoms.IO;
 namespace Yaapii.Zip
 {
     /// <summary>
-    /// Extracted file from a password protected zip
+    /// Extracted file from an encrypted zip
     /// </summary>
-    public sealed class ZipPasswordExtracted : IInput
+    public sealed class ZipDecryptedExtracted : IInput
     {
         private readonly IInput zip;
         private readonly string virtualPath;
@@ -20,7 +20,7 @@ namespace Yaapii.Zip
         /// <summary>
         /// Extracted file from a password protected zip
         /// </summary>
-        public ZipPasswordExtracted(IInput zip, string password, string virtualPath, bool leaveOpen = true)
+        public ZipDecryptedExtracted(IInput zip, string password, string virtualPath, bool leaveOpen = true)
         {
             this.zip = zip;
             this.virtualPath = virtualPath;

@@ -11,14 +11,14 @@ namespace Yaapii.Zip
     /// <summary>
     /// A Zip which input is saved with a password
     /// </summary>
-    public sealed class ZipWithPassword : IInput
+    public sealed class ZipEncrypted : IInput
     {
         private readonly Sticky<IInput> result;
 
         /// <summary>
         /// A Zip which input is saved with a password
         /// </summary>
-        public ZipWithPassword(string password, string path, IInput content) : this(
+        public ZipEncrypted(string password, string path, IInput content) : this(
             password,
             new KeyValuePair<string, IInput>(
                 path,
@@ -32,7 +32,7 @@ namespace Yaapii.Zip
         /// <summary>
         /// A Zip which input is saved with a password
         /// </summary>
-        public ZipWithPassword(string password, params KeyValuePair<string, IInput>[] contents) : this(
+        public ZipEncrypted(string password, params KeyValuePair<string, IInput>[] contents) : this(
             password,
             new EnumerableOf<KeyValuePair<string, IInput>>(
                 contents
@@ -43,7 +43,7 @@ namespace Yaapii.Zip
         /// <summary>
         /// A Zip which input is saved with a password
         /// </summary>
-        public ZipWithPassword(string password, IEnumerable<KeyValuePair<string, IInput>> contents)
+        public ZipEncrypted(string password, IEnumerable<KeyValuePair<string, IInput>> contents)
         {
             this.result = new Sticky<IInput>(() =>
             {

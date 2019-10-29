@@ -15,7 +15,7 @@ namespace Yaapii.Zip.Test
         {
             var name = new FirstOf<string>(
                 new Yaapii.Zip.ZipFiles(
-                    new ZipWithPassword(
+                    new ZipEncrypted(
                         "pass",
                         "input.txt",
                         new InputOf("mechiko")
@@ -32,7 +32,7 @@ namespace Yaapii.Zip.Test
             {
                 new TextOf(
                     new ZipExtracted(
-                        new ZipWithPassword(
+                        new ZipEncrypted(
                             "pass",
                             "input.txt",
                             new InputOf("mechiko")
@@ -50,7 +50,7 @@ namespace Yaapii.Zip.Test
                 2,
                 new Atoms.Enumerable.LengthOf(
                     new ZipFiles(
-                        new ZipWithPassword("password",
+                        new ZipEncrypted("password",
                             new KeyValuePair<string, IInput>("name1", new InputOf("ThisIsSparta")),
                             new KeyValuePair<string, IInput>("name2", new InputOf("ThisIsATest"))
                         ),

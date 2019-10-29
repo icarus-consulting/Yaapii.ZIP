@@ -7,7 +7,7 @@ using Yaapii.Atoms.Error;
 namespace Yaapii.Zip
 {
     /// <summary>
-    /// Takes a ZipArchive and protects each file with a password
+    /// A zip archive, encrypted.
     /// </summary>
     public sealed class Encrypted : IInput
     {
@@ -15,7 +15,7 @@ namespace Yaapii.Zip
         private readonly IInput origin;
 
         /// <summary>
-        /// Takes a ZipArchive and protects each file with a password
+        /// A zip archive, encrypted.
         /// </summary>
         public Encrypted(string password, IInput origin)
         {
@@ -27,14 +27,14 @@ namespace Yaapii.Zip
         {
             new FailWhen(
                 () => !new IsZipArchive(this.origin).Value(),
-                new ArgumentException("Can not Protect zip, because the input is no ZipArchive")
+                new ArgumentException("Cannot encrypt zip, because the input is not a zip archive.")
             ).Go();
             var result = new Dictionary<string, IInput>();
             foreach (var file in new ZipFiles(origin, true))
             {
                 result.Add(file, new ZipExtracted(origin, file, true));
             }
-            return new ZipWithPassword(this.password, result).Stream();
+            return new ZipEncrypted(this.password, result).Stream();
         }
     }
 }
