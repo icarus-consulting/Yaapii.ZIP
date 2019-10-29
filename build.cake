@@ -2,7 +2,7 @@
 #tool nuget:?package=OpenCover
 #tool nuget:?package=xunit.runner.console
 #tool nuget:?package=Codecov
-#tool nuget:?package=ReportGenerator
+#tool nuget:?package=ReportGenerator&version=4.2.20
 #addin nuget:?package=Cake.Codecov&version=0.5.0
 
 var target = Argument("target", "Default");
@@ -20,7 +20,7 @@ var deployment						= Directory("./artifacts/deployment");
 ///////////////////////////////////////////////////////////////////////////////
 var project							= Directory("./src/Yaapii.Zip");
 var tests							= Directory("./tests/Test.Yaapii.Zip");
-var version							= "0.1.0";
+var version							= "0.4.2";
 
 ///////////////////////////////////////////////////////////////////////////////
 // CONFIGURATION VARIABLES

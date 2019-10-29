@@ -1,4 +1,5 @@
-﻿using Xunit;
+﻿using System;
+using Xunit;
 using Yaapii.Atoms.IO;
 using Yaapii.Atoms.Text;
 
@@ -36,6 +37,38 @@ namespace Yaapii.Zip.Test
                     )
                 )
                 .AsString()
+            );
+        }
+
+        [Fact]
+        public void FailsOnMissingEntry()
+        {
+            Assert.Throws<ArgumentException>(() =>
+                new ZipExtracted(
+                    new Zipped(
+                        "filename.txt",
+                        new InputOf("a input")
+                    ),
+                    "otherfile.txt"
+                ).Stream()
+            );
+        }
+
+        [Theory]
+        [InlineData("Datum/windows.zip")]
+        [InlineData("Datum/7zip.zip")]
+        [InlineData("Datum/winrar.zip")]
+        public void ExtractsFromDifferentZips(string path)
+        {
+            Assert.Equal(
+                "123",
+                new TextOf(
+                    new ZipExtracted(
+                        new ResourceOf(path, this.GetType()),
+                        @"c\Y\test-a-y-1.txt",
+                        false
+                    )
+                ).AsString()
             );
         }
     }

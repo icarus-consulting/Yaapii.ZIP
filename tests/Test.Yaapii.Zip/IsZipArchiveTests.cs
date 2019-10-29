@@ -6,13 +6,33 @@ namespace Yaapii.Zip.Test
     public sealed class IsZipArchiveTests
     {
         [Fact]
-        public void DetectsZip()
+        public void DetectsOwnZip()
         {
             Assert.True(
                 new IsZipArchive(
-                    new Zipped("some/path/file.txt", new InputOf("Some Data"))
+                    new Zipped(
+                        "some/path/file.txt", 
+                        new InputOf("Some Data")
+                    )
                 ).Value()
             );
+        }
+
+        [Theory]
+        [InlineData("Datum/windows.zip")]
+        [InlineData("Datum/7zip.zip")]
+        [InlineData("Datum/winrar.zip")]
+        [InlineData("Datum/7zip_crypt.zip")]
+        [InlineData("Datum/7zip_crypt_aes.zip")]
+        [InlineData("Datum/winrar_crypt.zip")]
+        [InlineData("Datum/winrar_crypt_aes.zip")]
+        public void DetectsDifferentZips(string path)
+        {
+            Assert.True(
+               new IsZipArchive(
+                   new ResourceOf(path, this.GetType())
+               ).Value()
+           );
         }
 
         [Fact]

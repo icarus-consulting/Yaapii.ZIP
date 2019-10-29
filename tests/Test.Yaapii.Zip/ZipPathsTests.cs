@@ -1,7 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System.IO;
 using System.Threading.Tasks;
 using Xunit;
-using Yaapii.Atoms;
 using Yaapii.Atoms.IO;
 
 namespace Yaapii.Zip.Test
@@ -53,13 +52,61 @@ namespace Yaapii.Zip.Test
         [Fact]
         public void ListsAllPaths()
         {
-            var paths =
-                new ZipPaths(
-                    new ResourceOf("Datum/example.zip", this.GetType())
-                );
             Assert.Equal(
                 6,
-                new Atoms.Enumerable.LengthOf(paths).Value()
+                new Atoms.Enumerable.LengthOf(
+                    new ZipPaths(
+                        new ResourceOf("Datum/example.zip", this.GetType())
+                    )
+                ).Value()
+            );
+        }
+
+        [Theory]
+        [InlineData("Datum/7zip.zip")]
+        [InlineData("Datum/winrar.zip")]
+        [InlineData("Datum/7zip_crypt.zip")]
+        [InlineData("Datum/7zip_crypt_aes.zip")]
+        [InlineData("Datum/winrar_crypt.zip")]
+        [InlineData("Datum/winrar_crypt_aes.zip")]
+        public void ListsAllPathsFromDifferentZips(string path)
+        {
+            Assert.Equal(
+                26,
+                new Atoms.Enumerable.LengthOf(
+                    new ZipPaths(
+                        new ResourceOf(path, this.GetType())
+                    )
+                ).Value()
+            );
+        }
+
+        /// <summary>
+        /// Windows has only one entry for directories e.g. only
+        /// A/X/ and not A/ and A/X/
+        /// </summary>
+        [Fact]
+        public void ListsAllPathsFromWindowsZip()
+        {
+            Assert.Equal(
+                22,
+                new Atoms.Enumerable.LengthOf(
+                    new ZipPaths(
+                        new ResourceOf("Datum/windows.zip", this.GetType())
+                    )
+                ).Value()
+            );
+        }
+
+        [Fact]
+        public void EmptyFilesOnEmptyStream()
+        {
+            Assert.Empty(
+                new ZipPaths(
+                    new InputOf(
+                        new MemoryStream()
+                    )
+                )
             );
         }
     }
