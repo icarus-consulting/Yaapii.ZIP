@@ -62,14 +62,15 @@ namespace Yaapii.Zip.Test
         }
 
         [Fact]
-        public void FailsOnNoPassword()
+        public void ExtractsUnencryptedZip()
         {
-            Assert.Throws<InvalidOperationException>(() =>
+            Assert.Equal(
+                "unsafe",
                 new TextOf(
                     new ZipPasswordExtracted(
                         new Zipped(
                             "text.txt",
-                            new InputOf("safe")
+                            new InputOf("unsafe")
                         ),
                         "text.txt",
                         "password"
