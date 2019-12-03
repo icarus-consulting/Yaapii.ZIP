@@ -37,13 +37,6 @@ namespace Yaapii.Zip
                 var stream = zip.Value();
                 lock (stream)
                 {
-                    new FailWhen(
-                        () => ExistsAndCrypted(new InputOf(stream), pathToUpdate),
-                        new InvalidOperationException(
-                            $"Cannot update '{pathToUpdate}' because the file is password protected"
-                        )
-                    ).Go();
-                    
                     stream.Seek(0, SeekOrigin.Begin);
                     using (var archive = new ZipArchive(stream, ZipArchiveMode.Update, leaveOpen))
                     {
@@ -82,19 +75,6 @@ namespace Yaapii.Zip
             var dir = Path.GetDirectoryName(path).ToLower();
             var file = Path.GetFileName(path).ToLower();
             return Path.Combine(dir, file);
-        }
-
-        private bool ExistsAndCrypted(IInput zip, string filepath)
-        {
-            bool result = false;
-            if(new ZipContains(zip, filepath).Value())
-            {
-                if(new HasPassword(zip, filepath).Value())
-                {
-                    result = true;
-                }
-            }
-            return result;
         }
     }
 }
