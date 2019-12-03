@@ -28,18 +28,7 @@ namespace Yaapii.Zip
 
         public Stream Stream()
         {
-            new FailWhen(
-                () => !new IsZipArchive(this.zip).Value(),
-                new ArgumentException(
-                    "Can not extract zip because no zip was provided."
-                )
-            ).Go();
-            new FailWhen(
-                () => !new HasPassword(this.zip, this.virtualPath).Value(),
-                new InvalidOperationException(
-                    "Can not extract zip because the file is not protected with a password."
-                )
-            ).Go();
+            Validate();
             zip.Stream().Seek(0, SeekOrigin.Begin);
             IInput result;
             using (var stream = new MemoryStream())
@@ -56,6 +45,22 @@ namespace Yaapii.Zip
                 result = new InputOf(stream.ToArray());
             }
             return result.Stream();
+        }
+
+        private void Validate()
+        {
+            new FailWhen(
+                () => !new IsZipArchive(this.zip).Value(),
+                new ArgumentException(
+                    "Can not extract zip because no zip was provided."
+                )
+            ).Go();
+            // ZipFile.ContainsEntry() by Ionic does not work with backslashes,
+            // even if the path is normalized. Misterious
+            new FailWhen(
+                () => !new ZipContains(this.zip, this.virtualPath).Value(),
+                new ArgumentException($"Cannot check for password because file '{this.virtualPath} doesn't exists in zip.")
+            ).Go();
         }
     }
 }

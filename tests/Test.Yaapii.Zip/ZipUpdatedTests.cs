@@ -27,18 +27,35 @@ namespace Yaapii.Zip.Test
         }
 
         [Fact]
-        public void ThrowsForPasswordFile()
+        public void UpdatesPasswordProtectedZip()
         {
-            Assert.Throws<InvalidOperationException>(() =>
-                new ZipUpdated(
-                    new ZipWithPassword(
-                        "Brave Citizens.txt",
-                        "pwd",
-                        new InputOf("Empty data will not crypted!")
-                    ),
-                    "Brave Citizens.txt",
-                    new InputOf("456")
-                ).Stream()
+            //Assert.Throws<InvalidOperationException>(() =>
+            //    new ZipUpdated(
+            //        new ZipWithPassword(
+            //            "Brave Citizens.txt",
+            //            "pwd",
+            //            new InputOf("Empty data will not crypted!")
+            //        ),
+            //        "Brave Citizens.txt",
+            //        new InputOf("456")
+            //    ).Stream()
+            //);
+            Assert.Equal(
+                "456",
+                new TextOf(
+                    new ZipExtracted(
+                        new ZipUpdated(
+                            new ZipWithPassword(
+                                "Brave Citizens.txt",
+                                "pwd",
+                                new InputOf("Empty data will not crypted!")
+                            ),
+                            "Brave Citizens.txt",
+                            new InputOf("456")
+                        ),
+                        "Brave Citizens.txt"
+                    )
+                ).AsString()
             );
         }
 
@@ -74,7 +91,7 @@ namespace Yaapii.Zip.Test
         [InlineData("Datum/winrar_crypt_aes.zip")]
         public void ThrowsForDifferentCrypedZips(string path)
         {
-            Assert.Throws<InvalidOperationException>(() =>
+            Assert.Throws<ArgumentException>(() =>
                 new ZipUpdated(
                     new ResourceOf(path, this.GetType()),
                     "c/Y/test-a-y-2.txt",

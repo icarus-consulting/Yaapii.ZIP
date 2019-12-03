@@ -33,12 +33,6 @@ namespace Yaapii.Zip
         {
             lock (zip)
             {
-                new FailWhen(
-                    () => new HasPassword(this.zip, filePath).Value(),
-                    new InvalidOperationException(
-                        "Can not read content of the zip because the file is password protected"
-                    )
-                ).Go();
                 Stream content;
                 using (var archive = new ZipArchive(this.zip.Stream(), ZipArchiveMode.Read, leaveOpen))
                 {
@@ -64,9 +58,16 @@ namespace Yaapii.Zip
             MemoryStream content = new MemoryStream();
             using (Stream zipEntryStream = zipEntry.Open())
             {
-                zipEntryStream.CopyTo(content);
-                zipEntryStream.Close();
-                content.Seek(0, SeekOrigin.Begin);
+                try
+                {
+                    zipEntryStream.CopyTo(content);
+                    zipEntryStream.Close();
+                    content.Seek(0, SeekOrigin.Begin);
+                }
+                catch (InvalidDataException ex)
+                {
+                    throw new InvalidOperationException($"Unable to extract file '{this.filePath}'. Maybe the zip is encrypted", ex);
+                }
             }
             return content;
         }
