@@ -25,7 +25,7 @@ namespace Yaapii.Zip
         /// Contents zipped.
         /// </summary>
         /// <param name="contents">contents in format 'virtualPath=data'</param>
-        public Zipped(params KeyValuePair<string, IInput>[] contents) : this(new EnumerableOf<KeyValuePair<string, IInput>>(contents))
+        public Zipped(params KeyValuePair<string, IInput>[] contents) : this(new ManyOf<KeyValuePair<string, IInput>>(contents))
         { }
 
         /// <summary>

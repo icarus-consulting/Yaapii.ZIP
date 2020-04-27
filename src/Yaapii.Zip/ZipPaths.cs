@@ -31,8 +31,8 @@ namespace Yaapii.Zip
                         var inputStream = input.Stream();
                         inputStream.Seek(0, SeekOrigin.Begin);
                         inputStream.Flush();
-                        IEnumerable<string> files = new EnumerableOf<string>();
-                        if(inputStream.Length > 0)
+                        IEnumerable<string> files = new ManyOf<string>();
+                        if (inputStream.Length > 0)
                         {
                             using (var zip = new ZipArchive(inputStream, ZipArchiveMode.Read, leaveOpen))
                             {

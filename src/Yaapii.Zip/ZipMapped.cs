@@ -23,7 +23,7 @@ namespace Yaapii.Zip
         public ZipMapped(Func<string, string> mapPath, IInput zip, bool leaveOpen = true)
         {
             this.input =
-                new Sticky<Stream>(() =>
+                new ScalarOf<Stream>(() =>
                 {
                     lock (zip)
                     {

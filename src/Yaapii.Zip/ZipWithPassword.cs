@@ -17,7 +17,7 @@ namespace Yaapii.Zip
         /// A Zip which input is saved with a password
         /// </summary>
         public ZipWithPassword(string name, string password, IInput origin) : this(
-            new Sticky<IInput>(() =>
+            new ScalarOf<IInput>(() =>
             {
                 IInput output;
                 using (var stream = new MemoryStream())

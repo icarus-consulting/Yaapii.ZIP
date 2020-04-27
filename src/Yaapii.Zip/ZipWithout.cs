@@ -31,7 +31,7 @@ namespace Yaapii.Zip
         /// </summary>
         public ZipWithout(string pathToRemove, IScalar<Stream> zip, bool leaveOpen)
         {
-            this.zip = new Sticky<Stream>(() =>
+            this.zip = new ScalarOf<Stream>(() =>
             {
                 lock (zip.Value())
                 {
