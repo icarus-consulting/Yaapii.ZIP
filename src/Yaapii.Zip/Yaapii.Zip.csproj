@@ -10,8 +10,8 @@
 
   <ItemGroup>
     <PackageReference Include="DotNetZip" Version="1.13.3" />
-    <PackageReference Include="Yaapii.Atoms" Version="0.29.0" />
-    <PackageReference Include="Yaapii.Xml" Version="0.16.0" />
+    <PackageReference Include="Yaapii.Atoms" Version="2.0.2" />
+    <PackageReference Include="Yaapii.Xml" Version="1.0.0" />
   </ItemGroup>
 
 </Project>

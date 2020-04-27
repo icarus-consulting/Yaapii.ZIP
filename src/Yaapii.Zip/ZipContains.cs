@@ -25,14 +25,14 @@ namespace Yaapii.Zip
         /// Checks whether a specific path exists in a zip or not.
         /// The path can either be a file or a directory.
         /// </summary>
-        public ZipContains(IInput zip, params string[] paths) : this(zip, true, new EnumerableOf<string>(paths))
+        public ZipContains(IInput zip, params string[] paths) : this(zip, true, new ManyOf<string>(paths))
         { }
 
         /// <summary>
         /// Checks whether a specific path exists in a zip or not.
         /// The path can either be a file or a directory.
         /// </summary>
-        public ZipContains(IInput zip, bool leaveOpen, params string[] paths) : this(zip, leaveOpen, new EnumerableOf<string>(paths))
+        public ZipContains(IInput zip, bool leaveOpen, params string[] paths) : this(zip, leaveOpen, new ManyOf<string>(paths))
         { }
 
         /// <summary>
