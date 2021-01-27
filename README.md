@@ -1,5 +1,12 @@
 [![EO principles respected here](https://www.elegantobjects.org/badge.svg)](http://www.elegantobjects.org)
 
+## Repo Guidelines
+
+Main responsible for this repository is [jaanpeeter](https://github.com/jaanpeeter).
+Please request in every single PR a review from him. 
+
+He will try to review the PR´s within **1 week** and merge applied PR´s within **2 weeks** with a new release. Main review day is thursday.
+
 # Yaapii.ZIP
 Object oriented tools for handling ZIP archives. Based on [Yaapii.Atoms](https://github.com/icarus-consulting/Yaapii.Atoms).
 
