@@ -13,5 +13,4 @@
     <PackageReference Include="Yaapii.Atoms" Version="2.0.2" />
     <PackageReference Include="Yaapii.Xml" Version="1.0.0" />
   </ItemGroup>
-<VersionPrefix>1.1.0</VersionPrefix>
 </Project>
