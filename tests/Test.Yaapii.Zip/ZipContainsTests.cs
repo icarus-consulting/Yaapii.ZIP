@@ -33,6 +33,18 @@ namespace Yaapii.Zip.Test
         }
 
         [Fact]
+        public void FindsDirectory()
+        {
+            Assert.True(
+                new ZipContains(
+                    new ResourceOf("Datum/example.zip", this.GetType()),
+                    false,
+                    "raw/KRC/R1"
+                ).Value()
+            );
+        }
+
+        [Fact]
         public void FalseIfFileIsNotContained()
         {
             Assert.False(
@@ -78,6 +90,15 @@ namespace Yaapii.Zip.Test
                        "this/is/not/the/file/you/are/looking.for"
               ).Value()
           );
+        }
+
+        [Fact]
+        public void LeavesOpenAtBegin()
+        {
+            var zip = new Zipped("Leave me open", new InputOf("Please!"));
+            new ZipContains(zip, "Leave me open").Value();
+
+            Assert.Equal(0, zip.Stream().Position);
         }
 
         [Fact]
