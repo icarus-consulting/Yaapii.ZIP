@@ -134,7 +134,7 @@ Test if a file exists in a zip:
 var exists =
     new ZipContains(
         new InputOf(File.OpenRead("c:/some-zip-archive.zip")),
-        "someFileInTheZip.txt")
+        "with/path/someFileInTheZip.txt"
     ).Value();
 ```
 
