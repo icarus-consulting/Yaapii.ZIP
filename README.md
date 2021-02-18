@@ -144,7 +144,7 @@ Test if a file in a zip is protected with a password:
 var hasPassword =
     new HasPassword(
         new InputOf(File.OpenRead("c:/some-zip-archive.zip")),
-        "someFileInTheZip.txt")
+        "someFileInTheZip.txt"
     ).Value();
 ```
 
