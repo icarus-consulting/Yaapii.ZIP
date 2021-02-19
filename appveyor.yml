@@ -7,7 +7,7 @@ configuration: Release
 environment:
   GITHUB_TOKEN:
     secure: tvoyJ/iv8Y+9VaKvOFvxegvQFBNqPkhiwghS8lQDsrt7B/1MWU4e8uOHQzfTU580
- NUGET_TOKEN:
+  NUGET_TOKEN:
     secure: P2AbVXF6ZhkWoNAFjmIhzMH3FEgJkFtXPozru7MTOWRn6HCRiq3Dz+TP36knnevg
 # Do not build feature branch with open Pull Requests
 skip_branch_with_pr: true
