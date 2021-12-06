@@ -17,7 +17,7 @@ For password protected ZIPs it uses "[DotNetZip](https://github.com/DinoChiesa/D
 ## Usage
 
 There are different Decorator classes which accept a input. A input might come from a file or a memorystream or any other stream. You can use Atoms ```InputOf``` to get an input which you can use with this library.
-Important: Since we are working with streams, which are expensive to copy in certain cases, the input stream will also be altered. If this is undesired, the input stream must be copied beforehand.
+Important: Since we are working with streams, which are expensive to copy in certain cases, the input zip stream will also be altered. If this is undesired, the input stream must be copied beforehand.
 
 ## Only for Zip Archives
 This library works with common zip archives, which have a table of contents. 
