@@ -2,10 +2,10 @@
 
 ## Repo Guidelines
 
-Main responsible for this repository is [jaanpeeter](https://github.com/jaanpeeter).
-Please request in every single PR a review from him. 
+Mainly responsible for this repository is [jaanpeeter](https://github.com/jaanpeeter).
+Please request a review in every single PR from him. 
 
-He will try to review the PR´s within **1 week** and merge applied PR´s within **2 weeks** with a new release. Main review day is thursday.
+He will try to review the PRs within **1 week** and merge applied PRs within **2 weeks** with a new release. Main review day is thursday.
 
 # Yaapii.ZIP
 Object oriented tools for handling ZIP archives. Based on [Yaapii.Atoms](https://github.com/icarus-consulting/Yaapii.Atoms).
