@@ -3,14 +3,20 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <Authors>ICARUS Consulting GmbH</Authors>
+    <DocumentationFile>$(MSBuildThisFileDirectory)bin\$(Configuration)\$(TargetFramework)\README.md</DocumentationFile>
+    <Description>Object oriented tools for handling ZIP archives. Based on [Yaapii.Atoms](https://github.com/icarus-consulting/Yaapii.Atoms).</Description>
+    <PackageTags>yaapii, zip, archives</PackageTags>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <Copyright>Copyright (c) 2021 ICARUS Consulting GmbH</Copyright>
+    <Copyright>Copyright (c) 2022 ICARUS Consulting GmbH</Copyright>
     <PackageProjectUrl>https://github.com/icarus-consulting/Yaapii.ZIP</PackageProjectUrl>
     <RepositoryUrl>https://github.com/icarus-consulting/Yaapii.ZIP.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageReleaseNotes>https://github.com/icarus-consulting/Yaapii.ZIP/releases</PackageReleaseNotes>
+    <RootNamespace>Yaapii.Zip</RootNamespace>
   </PropertyGroup>
+
+
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <PlatformTarget>AnyCPU</PlatformTarget>
