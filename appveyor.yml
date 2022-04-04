@@ -1,5 +1,5 @@
 #------------------------------------------------------------#
-#     CI Build Configuration for master branch pre-release   #
+#     CI Build Configuration for main branch pre-release   #
 #------------------------------------------------------------#
 version: "{build}"
 image: Visual Studio 2019
