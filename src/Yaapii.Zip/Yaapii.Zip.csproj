@@ -14,6 +14,8 @@
     <RepositoryType>git</RepositoryType>
     <PackageReleaseNotes>https://github.com/icarus-consulting/Yaapii.ZIP/releases</PackageReleaseNotes>
     <RootNamespace>Yaapii.Zip</RootNamespace>
+    <SignAssembly>True</SignAssembly>
+    <AssemblyOriginatorKeyFile>..\..\sgKey.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 
 
@@ -24,7 +26,6 @@
 
   <ItemGroup>
     <PackageReference Include="DotNetZip" Version="1.13.3" />
-    <PackageReference Include="Yaapii.Atoms" Version="2.6.0" />
-    <PackageReference Include="Yaapii.Xml" Version="1.1.0" />
+    <PackageReference Include="Yaapii.Xml" Version="2.0.0" />
   </ItemGroup>
 </Project>
