@@ -194,8 +194,6 @@ Task("NuGet")
     {
         Configuration = configuration,
         OutputDirectory = buildArtifacts,
-        NoRestore = true,
-        NoBuild = true,
         VersionSuffix = ""
     };
     settings.ArgumentCustomization = args => args.Append("--include-symbols").Append("-p:SymbolPackageFormat=snupkg");
