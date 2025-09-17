@@ -25,7 +25,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="DotNetZip" Version="1.16.0" />
+    <PackageReference Include="DotNetZip.Original" Version="2025.2.15" />
     <PackageReference Include="Yaapii.Atoms" Version="4.0.0" />
   </ItemGroup>
 </Project>
