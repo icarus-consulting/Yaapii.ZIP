@@ -12,7 +12,7 @@ var configuration           = "Release";
 ///////////////////////////////////////////////////////////////////////////////
 var buildArtifacts          = Directory("./artifacts");
 var deployment              = Directory("./artifacts/deployment");
-var version                 = "1.2.0";
+var version                 = "4.0.0";
 
 ///////////////////////////////////////////////////////////////////////////////
 // MODULES
