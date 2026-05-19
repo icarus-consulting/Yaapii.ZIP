@@ -50,18 +50,7 @@ namespace Yaapii.Zip.Test
 
         [Fact]
         public void UpdatesPasswordProtectedZip()
-        {
-            //Assert.Throws<InvalidOperationException>(() =>
-            //    new ZipUpdated(
-            //        new ZipWithPassword(
-            //            "Brave Citizens.txt",
-            //            "pwd",
-            //            new InputOf("Empty data will not crypted!")
-            //        ),
-            //        "Brave Citizens.txt",
-            //        new InputOf("456")
-            //    ).Stream()
-            //);
+        {           
             Assert.Equal(
                 "456",
                 new TextOf(
