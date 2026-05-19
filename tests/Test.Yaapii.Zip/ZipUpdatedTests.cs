@@ -2,6 +2,7 @@
 using System.IO;
 using System.Threading.Tasks;
 using Xunit;
+using Yaapii.Atoms.Bytes;
 using Yaapii.Atoms.IO;
 using Yaapii.Atoms.Text;
 
@@ -9,6 +10,27 @@ namespace Yaapii.Zip.Test
 {
     public sealed class ZipUpdatedTests
     {
+        [Fact]
+        public void DoesNotUpdateSource()
+        {
+            var srcZip =
+                new ZipUpdated(
+                            new Zipped("Brave Citizens.txt", new InputOf("")),
+                            "Brave Citizens.txt", new InputOf("Edward Snowden")
+                        );        
+
+            var srcZipInput = new InputOf(new BytesOf(srcZip).AsBytes());
+         
+            var zip = new ZipUpdated(srcZipInput, "Brave Citizens.txt", new InputOf("Donald Trump")).Stream(); //<-- that was the AI but I like it
+                      
+            Assert.Equal(
+                "Edward Snowden",
+                new TextOf(
+                    new ZipExtracted(srcZipInput, "Brave Citizens.txt")
+                ).AsString()
+            );
+        }
+        
         [Fact]
         public void UpdatesFile()
         {
