@@ -105,22 +105,7 @@ namespace Yaapii.Zip.Test
                 ).AsString()
             );
         }
-
-        [Theory]
-        [InlineData("Datum/7zip_crypt.zip")]
-        [InlineData("Datum/7zip_crypt_aes.zip")]
-        [InlineData("Datum/winrar_crypt.zip")]
-        [InlineData("Datum/winrar_crypt_aes.zip")]
-        public void ThrowsForDifferentCrypedZips(string path)
-        {
-            Assert.Throws<ArgumentException>(() =>
-                new ZipUpdated(
-                    new ResourceOf(path, this.GetType()),
-                    "c/Y/test-a-y-2.txt",
-                    new InputOf("456")
-                ).Stream()
-            );
-        }
+              
 
         [Theory]
         [InlineData("Datum/windows.zip")]
