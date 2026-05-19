@@ -3,8 +3,6 @@ using System.IO;
 using System.IO.Compression;
 using Yaapii.Atoms;
 using Yaapii.Atoms.Enumerable;
-using Yaapii.Atoms.Error;
-using Yaapii.Atoms.IO;
 using Yaapii.Atoms.Scalar;
 
 namespace Yaapii.Zip
