@@ -3,8 +3,6 @@ using System.IO;
 using System.IO.Compression;
 using Yaapii.Atoms;
 using Yaapii.Atoms.Enumerable;
-using Yaapii.Atoms.Error;
-using Yaapii.Atoms.IO;
 using Yaapii.Atoms.Scalar;
 
 namespace Yaapii.Zip
@@ -12,6 +10,7 @@ namespace Yaapii.Zip
     /// <summary>
     /// A zip from which a file has been updated or added.
     /// If the file to update does not exist, it is created.
+    /// the source zip is not modified, a copy is created in memory and updated there.
     /// </summary>
     public sealed class ZipUpdated : IInput
     {
@@ -20,6 +19,7 @@ namespace Yaapii.Zip
         /// <summary>
         /// A zip in which a file has been updated or added.
         /// If the file to update does not exist, it is created.
+        /// the source zip is not modified, a copy is created in memory and updated there.
         /// </summary>
         public ZipUpdated(IInput input, string pathToUpdate, IInput update, bool leaveOpen = true) : this(
             new ScalarOf<Stream>(() => input.Stream()), pathToUpdate, update, leaveOpen
@@ -29,14 +29,18 @@ namespace Yaapii.Zip
         /// <summary>
         /// A zip from which a file has been updated or added.
         /// If the file to update does not exist, it is created.
+        /// the source zip is not modified, a copy is created in memory and updated there.
         /// </summary>
-        public ZipUpdated(IScalar<Stream> zip, string pathToUpdate, IInput update, bool leaveOpen)
+        public ZipUpdated(IScalar<Stream> inputZip, string pathToUpdate, IInput update, bool leaveOpen)
         {
             this.zip = new Solid<Stream>(() =>
             {
-                var stream = zip.Value();
-                lock (stream)
+                var copyStream = inputZip.Value();
+                var stream = new MemoryStream();
+
+                lock (copyStream)
                 {
+                    copyStream.CopyTo(stream);
                     stream.Seek(0, SeekOrigin.Begin);
                     using (var archive = new ZipArchive(stream, ZipArchiveMode.Update, leaveOpen))
                     {
@@ -62,7 +66,7 @@ namespace Yaapii.Zip
                     return stream;
                 }
             },
-            zip);
+            inputZip);
         }
 
         public Stream Stream()
