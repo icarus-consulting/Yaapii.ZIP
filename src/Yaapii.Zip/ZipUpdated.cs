@@ -35,12 +35,13 @@ namespace Yaapii.Zip
         {
             this.zip = new Solid<Stream>(() =>
             {
-                var copyStream = inputZip.Value();
+                var inputStream = inputZip.Value();
                 var stream = new MemoryStream();
 
-                lock (copyStream)
+                lock (inputStream)
                 {
-                    copyStream.CopyTo(stream);
+                    inputStream.Seek(0, SeekOrigin.Begin);
+                    inputStream.CopyTo(stream);
                     stream.Seek(0, SeekOrigin.Begin);
                     using (var archive = new ZipArchive(stream, ZipArchiveMode.Update, leaveOpen))
                     {

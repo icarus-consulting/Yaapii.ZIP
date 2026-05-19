@@ -33,9 +33,13 @@ namespace Yaapii.Zip
         {
             this.zip = new ScalarOf<Stream>(() =>
             {
+
                 lock (zip.Value())
                 {
-                    var stream = zip.Value();
+                    var inputStream = zip.Value();
+                    var stream = new MemoryStream();                   
+                    inputStream.Seek(0, SeekOrigin.Begin);
+                    inputStream.CopyTo(stream);
                     stream.Seek(0, SeekOrigin.Begin);
                     using (var archive = new ZipArchive(stream, ZipArchiveMode.Update, leaveOpen))
                     {
