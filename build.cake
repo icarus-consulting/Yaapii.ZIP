@@ -174,7 +174,6 @@ Task("UnitTests")
 // Default
 ///////////////////////////////////////////////////////////////////////////////
 Task("Default")
-.IsDependentOn("Credentials")
 .IsDependentOn("Version")
 .IsDependentOn("Clean")
 .IsDependentOn("Restore")
